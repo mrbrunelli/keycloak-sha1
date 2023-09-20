@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  keycloak:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+      - 8443:8443

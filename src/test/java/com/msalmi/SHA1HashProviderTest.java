@@ -3,8 +3,10 @@ package com.msalmi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.keycloak.models.credential.PasswordCredentialModel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SHA1HashProviderTest {
 	private SHA1HashProvider provider;
@@ -57,5 +59,14 @@ public class SHA1HashProviderTest {
 		var encoded = provider.encode("Zt72864b5", 0);
 
 		assertEquals(expected, encoded);
+	}
+
+	@Test
+	@DisplayName("Should verify encoded text")
+    public void shouldVerifyEncodedText() {
+		var encoded = provider.encode("capybara", 0);
+		var model = PasswordCredentialModel.createFromValues(SHA1HashProviderFactory.ID, new byte[0], 0, encoded);
+
+		assertTrue(provider.verify("capybara", model));
 	}
 }
